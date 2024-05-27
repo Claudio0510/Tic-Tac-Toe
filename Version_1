@@ -1,0 +1,109 @@
+import tkinter as tk
+
+
+#To reset everything 
+def Reset_everything():
+    # Crear los 9 Frames y Canvas
+    for i in range(3):
+        for j in range(3):
+            frame = tk.Frame(MainScreen, bg='white', width=300, height=300)
+            frame.grid(row=i, column=j, padx=1, pady=1)
+            frame.bind("<Enter>", On_Enter)
+            frame.bind("<Leave>", On_Exit)
+            frame.bind("<Button-1>", create_canvas)
+            frames.append(frame)
+
+# Function to change the color when the mouse enters and exits the frame
+def On_Enter(event):
+    event.widget['bg'] = 'yellow'
+
+def On_Exit(event):
+    event.widget['bg'] = 'white'
+    
+
+
+# Create the main Window 
+MainScreen = tk.Tk()
+MainScreen.geometry("1000x1000")
+MainScreen.title("Tic Tac Toe")
+
+
+#Create the button to reset everything
+Reset_Button = tk.Button(MainScreen , text= "Reset" , command= Reset_everything )
+Reset_Button.place(x = 920 , y = 0)
+
+
+
+
+# Function to putt the circle on the canvas.
+def create_circle(canvas):
+    # Coordinates of the circle
+    x1, y1 = 50, 50
+    x2, y2 = 250, 250
+    # Draw the circle
+    canvas.create_oval(x1, y1, x2, y2, outline="black", fill="black")
+
+
+#Function to draw the X
+def Create_x(canvas):
+    
+    canvas_next.create_line(50, 50, 150, 150, width=2)  # Primera línea de la X
+    canvas_next.create_line(50, 150, 150, 50, width=2)  # Segunda línea de la X
+
+
+
+
+
+# Function to create the canvas to putt the x
+def create_canvas(event):
+    frame = event.widget
+    canvas = tk.Canvas(frame, width=300, height=300, bg='white')
+    canvas.pack(fill=tk.BOTH, expand=True)
+    create_circle(canvas)  # Crear el círculo en el canvas
+    
+    
+    # Find the index of the current frame
+    current_frame_index = frames.index(frame)
+    
+    # Find the next frame
+    next_frame_index = (current_frame_index + 1) % len(frames)
+    
+    #The next frame
+    global next_frame
+    next_frame = frames[next_frame_index]
+    
+    #Create the canvas on the next frame
+    global canvas_next
+    canvas_next = tk.Canvas(next_frame, width=300, height=300, bg='white')
+    canvas_next.pack()
+    
+    Create_x(canvas)
+    
+    
+
+
+    
+    
+
+
+#Create the array for the frames
+frames = []
+
+
+
+# Crear los 9 Frames y Canvas
+for i in range(3):
+    for j in range(3):
+        frame = tk.Frame(MainScreen, bg='white', width=300, height=300)
+        frame.grid(row=i, column=j, padx=1, pady=1)
+        frame.bind("<Enter>", On_Enter)
+        frame.bind("<Leave>", On_Exit)
+        frame.bind("<Button-1>", create_canvas)
+        frames.append(frame)
+        
+        
+
+
+
+# Start the loop on the main window
+MainScreen.mainloop()
